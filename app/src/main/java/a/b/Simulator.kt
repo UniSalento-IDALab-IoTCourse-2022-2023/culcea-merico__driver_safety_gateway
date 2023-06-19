@@ -1,5 +1,6 @@
 package a.b
 
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.beust.klaxon.Klaxon
 

@@ -6,21 +6,19 @@ import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothGatt
 import android.bluetooth.BluetoothGattCallback
 import android.bluetooth.BluetoothGattCharacteristic
+import android.bluetooth.BluetoothGattDescriptor
 import android.bluetooth.BluetoothManager
 import android.bluetooth.BluetoothProfile
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.content.pm.PackageManager
-import android.os.Bundle
 import android.util.Log
-import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import java.util.UUID
+
 
 class BLE(address: String, data_services : Array<Service_data>, app_compat_activity: AppCompatActivity) {
     //private var bluetoothAdapter: BluetoothAdapter? = null
@@ -173,6 +171,10 @@ class BLE(address: String, data_services : Array<Service_data>, app_compat_activ
                                 //return
                             }
                             bluetoothGatt!!.setCharacteristicNotification(characteristic, true)
+
+                            val desc: BluetoothGattDescriptor = characteristic.getDescriptor(UUID.fromString("00002902-0000-1000-8000-00805F9B34FB"))
+                            desc.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
+                            bluetoothGatt!!.writeDescriptor(desc)
                         }
                     }
                 }

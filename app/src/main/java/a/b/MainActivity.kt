@@ -38,9 +38,9 @@ class MainActivity : AppCompatActivity() {
 
         start_button_elem?.setOnClickListener { view ->
             start_button_elem?.visibility = View.GONE
-//            Thread(Runnable {
-//                simulator_data_flow(Simulator_input.BLE, this::change_state, this)
-//            }).start()
+            Thread(Runnable {
+                simulator_data_flow(Simulator_input.WS, this::change_state, this)
+            }).start()
             Thread(Runnable {
                 watch_data_flow(this::change_state, this)
             }).start()

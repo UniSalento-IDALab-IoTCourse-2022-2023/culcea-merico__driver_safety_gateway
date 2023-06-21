@@ -3,23 +3,26 @@ package a.b
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.beust.klaxon.Klaxon
-
+import java.io.File
 
 enum class Simulator_input {
     BLE, WS
 }
 
 fun simulator_data_flow(input_type: Simulator_input, change_state: ((State_data) -> State_data, String) -> Unit, app_compat_activity: AppCompatActivity) {
+    val config = read_config()
+
     if(input_type == Simulator_input.BLE){
-        ble_simulator_data(change_state, app_compat_activity)
+        ble_simulator_data(change_state, app_compat_activity, config!!)
     } else if (input_type == Simulator_input.WS){
-        ws_simulator_data(change_state, app_compat_activity)
+        ws_simulator_data(change_state, app_compat_activity, config!!)
     }
 
 }
 
-fun ws_simulator_data(change_state: ((State_data) -> State_data, String) -> Unit, app_compat_activity: AppCompatActivity) {
-    val ws_server_address : String = "192.168.1.50:8765"
+fun ws_simulator_data(change_state: ((State_data) -> State_data, String) -> Unit, app_compat_activity: AppCompatActivity, config: Config) {
+    //val ws_server_address : String = "192.168.1.61:8765"
+    val ws_server_address : String = "${config.web_socket_ip_addr}:${config.web_socket_port}"
 
     val f : (String) -> Unit = { received_message ->
         data class Ws_response(val timestamp: Double, val speed: Double)
@@ -37,11 +40,14 @@ fun ws_simulator_data(change_state: ((State_data) -> State_data, String) -> Unit
     start_web_socket(ws_server_address, f)
 }
 
-fun ble_simulator_data(change_state: ((State_data) -> State_data, String) -> Unit, app_compat_activity: AppCompatActivity) {
-    val simulator_address = "DC:A6:32:9B:5B:C3"
+fun ble_simulator_data(change_state: ((State_data) -> State_data, String) -> Unit, app_compat_activity: AppCompatActivity, config: Config) {
+    //val simulator_address = "DC:A6:32:9B:5B:C3"
+    val simulator_address = config.ble_address
 
-    val obd_service_uuid_str = "af7cf399-7046-4869-86e2-9aad105cc5ae"
-    val obd_speed_uuid_str = "9c9ec551-771f-4ef5-a3c9-687cd7223370"
+//    val obd_service_uuid_str = "af7cf399-7046-4869-86e2-9aad105cc5ae"
+//    val obd_speed_uuid_str = "9c9ec551-771f-4ef5-a3c9-687cd7223370"
+    val obd_service_uuid_str = config.obd_service_uuid
+    val obd_speed_uuid_str = config.obd_speed_uuid
 
     val speed_c_data = Characteristic_data(obd_speed_uuid_str, { characteristic_value ->
         val received_str = characteristic_value
@@ -61,3 +67,4 @@ fun ble_simulator_data(change_state: ((State_data) -> State_data, String) -> Uni
 
     BLE(simulator_address, arrayOf(obd_service, ), app_compat_activity)
 }
+

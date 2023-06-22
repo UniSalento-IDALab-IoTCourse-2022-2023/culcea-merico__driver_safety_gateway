@@ -64,6 +64,7 @@ class BLE(address: String, data_services : Array<Service_data>, app_compat_activ
             Thread.sleep(5000)
             val gatt_callback = mk_gatt_callback(data_services)
             bluetoothGatt = device.connectGatt(appCompatActivity, true, gatt_callback)
+            Log.d(TAG, "After connect")
             //Thread.sleep(5000)
             //*/
 
@@ -122,6 +123,7 @@ class BLE(address: String, data_services : Array<Service_data>, app_compat_activ
             override fun onConnectionStateChange(gatt: BluetoothGatt, status: Int, newState: Int) {
                 Thread.sleep(5000)
                 super.onConnectionStateChange(gatt, status, newState)
+                Log.d(TAG, "onConnectionStateChange")
 
                 if (newState == BluetoothProfile.STATE_CONNECTED) {
                     Log.d(TAG, "Connected to GATT server.")
@@ -182,6 +184,7 @@ class BLE(address: String, data_services : Array<Service_data>, app_compat_activ
 
             override fun onServicesDiscovered(gatt: BluetoothGatt, status: Int) {
                 super.onServicesDiscovered(gatt, status)
+                Log.d(TAG, "onServicesDiscovered")
                 if (status == BluetoothGatt.GATT_SUCCESS) {
                     for (data_service in data_services){
                         do_for_service(data_service)
@@ -215,6 +218,7 @@ class BLE(address: String, data_services : Array<Service_data>, app_compat_activ
 
             override fun onCharacteristicChanged(gatt: BluetoothGatt, characteristic: BluetoothGattCharacteristic) {
                 super.onCharacteristicChanged(gatt, characteristic)
+                Log.d(TAG, "onCharacteristicChanged")
                 var f : ((String) -> Unit)? = null
                 for (data_service in data_services){
                     for(data_characteristic in data_service.data_characteristics){

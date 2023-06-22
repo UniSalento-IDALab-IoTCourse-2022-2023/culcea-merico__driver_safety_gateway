@@ -1,24 +1,32 @@
 package a.b
 
 
+import android.Manifest
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import java.util.UUID
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 
 
 class MainActivity : AppCompatActivity() {
-    private var state : State_data = State_data(0.0, -1)
+    private var state : State_data = State_data("", "", "","","")
 
     // view elements
     private var speed_view_elem: TextView? = null
+    private var rpm_view_elem: TextView? = null
+    private var engine_load_view_elem: TextView? = null
+    private var throttle_view_elem: TextView? = null
 
     private var heart_view_elem: TextView? = null
 
@@ -31,7 +39,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         speed_view_elem = findViewById<TextView>(R.id.speed_view)
-
+        rpm_view_elem = findViewById<TextView>(R.id.rpm_view)
+        engine_load_view_elem = findViewById<TextView>(R.id.engine_load_view)
+        throttle_view_elem = findViewById<TextView>(R.id.throttle_view)
         heart_view_elem = findViewById(R.id.heart_view)
 
         start_button_elem = findViewById(R.id.start_button)
@@ -96,11 +106,19 @@ class MainActivity : AppCompatActivity() {
     fun change_state(state_transaction: (State_data) -> State_data, timestamp: String): Unit {
         state = state_transaction(this.state)
 
-        speed_view_elem?.text = state.speed.toString()
-
-        heart_view_elem?.text = state.heart_beat.toString()
+        speed_view_elem?.text = "Speed: \n" + state.speed
+        rpm_view_elem?.text = "RPM: \n" + state.rpm
+        engine_load_view_elem?.text  = "Engine load: \n" + state.engine_load
+        throttle_view_elem?.text  = "Throttle: \n" + state.throttle
+        heart_view_elem?.text = "Heartbeat: \n" + state.heart_beat
 
         // anomaly detection
+        if(state.heart_beat != "") {
+            val heart_beat: Double = state.heart_beat.toDouble()
+            if (heart_beat < 70) {
+                Log.d("PERICOLO", "Battito sceso sotto i 70!")
+            }
+        }
 
         // send to backend
 

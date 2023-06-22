@@ -10,7 +10,7 @@ fun ble_watch_data(change_state: ((State_data) -> State_data, String) -> Unit, a
     val config = read_config()
 
     //val watch_address = "A0:B7:65:F5:6F:A6"
-    val watch_address = config!!.watch_ble_address
+    val watch_address = config.watch_ble_address
 
 //    val service_uuid_str = "6E400001-B5A3-F393-E0A9-E50E24DCCA9E".lowercase()
 //    val heartbeat_uuid_str = "6F400003-B5A3-F393-E0A9-E50F24DCCA9F".lowercase()
@@ -22,10 +22,10 @@ fun ble_watch_data(change_state: ((State_data) -> State_data, String) -> Unit, a
 
         val timestamp : String = System.currentTimeMillis().toString()
 
-        val heartbeat : Int = received_str.toDouble().toInt()
+        val heartbeat : String = received_str
 
         val state_transaction : (State_data) -> State_data  = {prev_state ->
-            State_data(prev_state.speed, heartbeat)
+            State_data(prev_state.speed, prev_state.rpm, prev_state.engine_load, prev_state.throttle, heartbeat)
         }
         app_compat_activity.runOnUiThread{
             change_state(state_transaction, timestamp)

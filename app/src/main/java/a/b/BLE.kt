@@ -6,21 +6,19 @@ import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothGatt
 import android.bluetooth.BluetoothGattCallback
 import android.bluetooth.BluetoothGattCharacteristic
+import android.bluetooth.BluetoothGattDescriptor
 import android.bluetooth.BluetoothManager
 import android.bluetooth.BluetoothProfile
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.content.pm.PackageManager
-import android.os.Bundle
 import android.util.Log
-import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import java.util.UUID
+
 
 class BLE(address: String, data_services : Array<Service_data>, app_compat_activity: AppCompatActivity) {
     //private var bluetoothAdapter: BluetoothAdapter? = null
@@ -66,6 +64,7 @@ class BLE(address: String, data_services : Array<Service_data>, app_compat_activ
             Thread.sleep(5000)
             val gatt_callback = mk_gatt_callback(data_services)
             bluetoothGatt = device.connectGatt(appCompatActivity, true, gatt_callback)
+            Log.d(TAG, "After connect")
             //Thread.sleep(5000)
             //*/
 
@@ -124,6 +123,7 @@ class BLE(address: String, data_services : Array<Service_data>, app_compat_activ
             override fun onConnectionStateChange(gatt: BluetoothGatt, status: Int, newState: Int) {
                 Thread.sleep(5000)
                 super.onConnectionStateChange(gatt, status, newState)
+                Log.d(TAG, "onConnectionStateChange")
 
                 if (newState == BluetoothProfile.STATE_CONNECTED) {
                     Log.d(TAG, "Connected to GATT server.")
@@ -173,6 +173,10 @@ class BLE(address: String, data_services : Array<Service_data>, app_compat_activ
                                 //return
                             }
                             bluetoothGatt!!.setCharacteristicNotification(characteristic, true)
+
+                            val desc: BluetoothGattDescriptor = characteristic.getDescriptor(UUID.fromString("00002902-0000-1000-8000-00805F9B34FB"))
+                            desc.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
+                            bluetoothGatt!!.writeDescriptor(desc)
                         }
                     }
                 }
@@ -180,6 +184,7 @@ class BLE(address: String, data_services : Array<Service_data>, app_compat_activ
 
             override fun onServicesDiscovered(gatt: BluetoothGatt, status: Int) {
                 super.onServicesDiscovered(gatt, status)
+                Log.d(TAG, "onServicesDiscovered")
                 if (status == BluetoothGatt.GATT_SUCCESS) {
                     for (data_service in data_services){
                         do_for_service(data_service)
@@ -213,6 +218,7 @@ class BLE(address: String, data_services : Array<Service_data>, app_compat_activ
 
             override fun onCharacteristicChanged(gatt: BluetoothGatt, characteristic: BluetoothGattCharacteristic) {
                 super.onCharacteristicChanged(gatt, characteristic)
+                Log.d(TAG, "onCharacteristicChanged")
                 var f : ((String) -> Unit)? = null
                 for (data_service in data_services){
                     for(data_characteristic in data_service.data_characteristics){

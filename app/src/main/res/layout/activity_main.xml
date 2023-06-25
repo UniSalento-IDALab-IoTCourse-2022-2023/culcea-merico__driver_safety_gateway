@@ -12,7 +12,8 @@
         android:id="@+id/speed_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="{speed}"
+        android:text="Speed: "
+        android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="34sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -26,15 +27,15 @@
         android:id="@+id/heart_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="{heart beat}"
+        android:layout_marginTop="10dp"
+        android:text="Heart beat: "
+        android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="34sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/speed_view"
-        app:layout_constraintVertical_bias="0.611" />
+        app:layout_constraintTop_toBottomOf="@+id/throttle_view" />
 
     <ImageView
         android:id="@+id/imageView"
@@ -44,7 +45,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/i" />
+        app:srcCompat="@drawable/logo" />
 
     <Button
         android:id="@+id/start_button"
@@ -56,6 +57,45 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/heart_view" />
+
+    <TextView
+        android:id="@+id/rpm_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="RPM: "
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/speed_view" />
+
+    <TextView
+        android:id="@+id/engine_load_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Engine load: "
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rpm_view" />
+
+    <TextView
+        android:id="@+id/throttle_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Throttle: "
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/engine_load_view" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

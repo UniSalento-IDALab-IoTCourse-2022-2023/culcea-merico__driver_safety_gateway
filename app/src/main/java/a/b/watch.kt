@@ -1,12 +1,14 @@
 package a.b
 
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import java.util.Optional
 
-fun watch_data_flow(change_state: ((State_data) -> State_data, String) -> Unit, app_compat_activity: AppCompatActivity){
+fun watch_data_flow(change_state: ((State_data) -> State_data, Optional<Long>, Thread_type) -> Unit, app_compat_activity: AppCompatActivity){
     ble_watch_data(change_state, app_compat_activity)
 }
 
-fun ble_watch_data(change_state: ((State_data) -> State_data, String) -> Unit, app_compat_activity: AppCompatActivity){
+fun ble_watch_data(change_state: ((State_data) -> State_data, Optional<Long>, Thread_type) -> Unit, app_compat_activity: AppCompatActivity){
     val config = read_config()
 
     //val watch_address = "A0:B7:65:F5:6F:A6"
@@ -20,15 +22,15 @@ fun ble_watch_data(change_state: ((State_data) -> State_data, String) -> Unit, a
     val heartbeat_c_data = Characteristic_data(heartbeat_uuid_str, { characteristic_value ->
         val received_str = characteristic_value
 
-        val timestamp : String = System.currentTimeMillis().toString()
+        val timestamp : Long = System.currentTimeMillis()
 
         val heartbeat : String = received_str
 
         val state_transaction : (State_data) -> State_data  = {prev_state ->
-            State_data(prev_state.speed, prev_state.rpm, prev_state.engine_load, prev_state.throttle, heartbeat)
+            State_data(prev_state.speed, prev_state.rpm, prev_state.engine_load, prev_state.throttle, string_to_double(heartbeat).map { d -> d.toInt() })
         }
         app_compat_activity.runOnUiThread{
-            change_state(state_transaction, timestamp)
+            change_state(state_transaction, Optional.of(timestamp), Thread_type.WATCH)
         }
     }
     )

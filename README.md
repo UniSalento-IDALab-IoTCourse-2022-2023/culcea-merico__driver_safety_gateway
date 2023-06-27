@@ -3,8 +3,7 @@ Codice per applicazione Android che svolge il gateway nell'architettura Iot per 
 Gli altri componenti sono:
 - Simulatore: simulatore dati OBD che li fornisce tramite BLE e websocket. Il codice si trova a questo [link]()
 - Watch: fornisce il battito cardiaco tramite BLE. Il codice si trova a questo [link]()
-- Backend: servizio che prende i dati e li rende disponibili tramite REST API. Il codice si trova a questo [link]()
-- Dashboard: servizio per visualizzare i dati. Il codice si trova a questo [link]()
+- Backend: servizio che prende i dati, li rende disponibili tramite REST API e fornisce una dashboard. Il codice si trova a questo [link]()
 
 # Esecuzione
 
@@ -22,6 +21,7 @@ Prima di eseguire l'applicazione, bisogna scrivere i valori corretti nel file di
 3. Assicurarsi che gli UUID del servizio e delle caratteristiche corrispondano a quelli specificati all'interno del file di configurazione del progetto del simulatore.
 4. Informazioni sul bluetooth low energy del watch: indirizzo bluetooth del device che svolge la funzionalità di watch
 5. Assicurarsi che gli UUID del servizio e della caratteristica del battito corrispondono a quelli specificati nel progetto del watch
+6. Assicurarsi che le informazioni sul backend siano corrette, in particolare l'indirizzo IP della macchina su cui si esegue il backend e eventualmente la porta.
 
 ## Avviare il simulatore
 Avviare il simulatore come specificato nel README del relativo progetto.
@@ -30,7 +30,7 @@ Avviare il simulatore come specificato nel README del relativo progetto.
 Avviare il simulatore come specificato nel README del relativo progetto.
 
 ## Avviare il backend 
-Avviare il simulatore come specificato nel README del relativo progetto.
+Avviare il backend come specificato nel README del relativo progetto.
 
 ## Esecuzione usando Android Studio
 - Collegare il proprio telefono Android e metterlo in modalità debugging USB.

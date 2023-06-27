@@ -14,7 +14,11 @@ data class Config(
     val obd_throttle_uuid: String,
     val watch_ble_address: String,
     val watch_service_uuid: String,
-    val watch_heartbeat_uuid: String
+    val watch_heartbeat_uuid: String,
+    val backend_ip: String,
+    val backend_port: String,
+    val backend_url_post_drive_alert: String,
+    val backend_url_post_hearbeat_alert: String
                   )
 
 fun read_config(): Config {
@@ -29,6 +33,10 @@ fun read_config(): Config {
         "18bf892a-76e0-482c-a7ef-b1ffd1b9f3c8",
         "A0:B7:65:F5:6F:A6",
     "6e400001-b5a3-f393-e0a9-e50e24dcca9e",
-    "6f400003-b5a3-f393-e0a9-e50f24dcca9f"
+    "6f400003-b5a3-f393-e0a9-e50f24dcca9f",
+        "http://192.168.1.50",
+        "3000",
+        "/post/driveAlert",
+        "/post/heartAlert"
     )
 }

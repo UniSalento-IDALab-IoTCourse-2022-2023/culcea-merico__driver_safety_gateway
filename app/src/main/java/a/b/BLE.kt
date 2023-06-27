@@ -218,7 +218,7 @@ class BLE(address: String, data_services : Array<Service_data>, app_compat_activ
 
             override fun onCharacteristicChanged(gatt: BluetoothGatt, characteristic: BluetoothGattCharacteristic) {
                 super.onCharacteristicChanged(gatt, characteristic)
-                Log.d(TAG, "onCharacteristicChanged")
+//                Log.d(TAG, "onCharacteristicChanged")
                 var f : ((String) -> Unit)? = null
                 for (data_service in data_services){
                     for(data_characteristic in data_service.data_characteristics){

@@ -23,9 +23,9 @@ data class Config(
 
 fun read_config(): Config {
     return Config(
-        "192.168.1.61",
+        "192.168.105.51",
         "8765",
-    "E4:5F:01:3B:DC:83",
+    "E4:5F:01:5F:5C:35",
     "af7cf399-7046-4869-86e2-9aad105cc5ae",
     "9c9ec551-771f-4ef5-a3c9-687cd7223370",
         "c1053c6f-e375-4e77-9afe-9d71aeea2854",
@@ -34,9 +34,9 @@ fun read_config(): Config {
         "A0:B7:65:F5:6F:A6",
     "6e400001-b5a3-f393-e0a9-e50e24dcca9e",
     "6f400003-b5a3-f393-e0a9-e50f24dcca9f",
-        "http://192.168.1.50",
+        "http://192.168.105.60",
         "3000",
-        "/post/driveAlert",
-        "/post/heartAlert"
+        "/api/post/driveAlert",
+        "/api/post/heartAlert"
     )
 }

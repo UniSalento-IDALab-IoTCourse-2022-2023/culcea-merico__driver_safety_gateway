@@ -1,25 +1,14 @@
 package a.b
 
 
-import android.Manifest
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
-import com.beust.klaxon.Klaxon
-import java.net.URI
-import java.util.Calendar
 import java.util.Optional
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -29,7 +18,7 @@ import java.util.Locale
 class MainActivity : AppCompatActivity() {
     private var state : State_data = empty_state_data()
     private var prev_state : State_data = empty_state_data()
-    private var prev_timestamp_watch : Optional<Long> = Optional.ofNullable(null)
+    private var prev_timestamp : Optional<Long> = Optional.ofNullable(null)
 
 
     // view elements
@@ -166,7 +155,7 @@ class MainActivity : AppCompatActivity() {
         if(thread_type == Thread_type.SIMULATOR) {
 
 //        Log.d("main", "prev: " + prev_state.toString() + "\nCurrent:" + state.toString() + "\nprev_t: " + prev_timestamp.toString() + "\nCurrent_t: " + timestamp.toString())
-            val acc: Optional<Double> = calc_acceleration(prev_timestamp_watch, timestamp, prev_state.speed, state.speed)
+            val acc: Optional<Double> = calc_acceleration(prev_timestamp, timestamp, prev_state.speed, state.speed)
             acc.ifPresent { acc_value ->
                 Log.d("main", acc_value.toString())
                 if (Math.abs(acc_value) > 3) {
@@ -191,7 +180,7 @@ class MainActivity : AppCompatActivity() {
                     }).start()
                 }
             }
-            prev_timestamp_watch = timestamp.map { t -> t }
+            prev_timestamp = timestamp.map { t -> t }
         }
 
         prev_state = state.copy()

@@ -50,14 +50,14 @@ Dopo aver cliccato sul bottone "Start", avverrà la connessione e i valori letti
 
 ## Spiegazione codice
 
-La UI dell'applicazione è definita in `./app/src/main/res/layout/activity_main.xml` e l'Activity associate è definita in `./app/src/main/res/java/a.b/MainActivity.kt`.
+La UI dell'applicazione è definita in `./app/src/main/res/layout/activity_main.xml` e l'Activity associata è definita in `./app/src/main/res/java/a.b/MainActivity.kt`.
 L'Activity è una classe con proprietà:
 - Le `TextView` per manipolare il layout dell'applicazione e scrivere i valori aggiornati del battito cardiaco e dell'OBD.
 - Le variabili globali di gestione dello stato. C'é una variabile per lo stato attuale, una variabile per lo stato appena precedente e una variabile per conservare il timestamp dell'ultima osservazione dei dati OBD. Tutte queste servono poi per svolgere correttamente l'anomaly detection.
 
 I metodi principali dell'Activity sono:
 - `onCreate`: metodo invocato all'avvio dell'applicazione. Sono inizializzati i valori delle `TextView` e quelli del bottone presente. Viene definito il click listener per il bottone; quando questo viene premuto scompare e sono avviate due thread: una thread per il watch e una thread per il simulator. Queste thread hanno come parametri fondamentali la funzione per cambiare lo stato e l'istanza dell'activity che serve in vari altri punti del codice e per eseguire nella main thread i cambiamenti di UI.
-- `change_state`: Questa è la funzione per cambiare lo stato e svolgere anomaly detection dopo che lo stato è cambiato. Alle varie thread viene passata questa funzione, una volta ottenuti i dati, definisco una funzione di transizione di stato e invocano la funzione passata con argomenti la funzione di transizione di stato definita, il timestamp associato ai dati e un valore enum per identificare quale thread ha chiamato questa funzione. 
+- `change_state`: Questa è la funzione per cambiare lo stato e svolgere anomaly detection dopo che lo stato è cambiato. Alle varie thread viene passata questa funzione, una volta ottenuti i dati, si definisce una funzione di transizione di stato e si invoca la funzione passata con argomenti la funzione di transizione di stato definita, il timestamp associato ai dati e un valore enum per identificare quale thread ha chiamato questa funzione. 
 
 ![Flow del programma](images/apk.png)
 
